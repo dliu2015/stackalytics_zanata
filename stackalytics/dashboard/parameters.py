@@ -40,6 +40,7 @@ METRIC_LABELS = {
     'person-day': "Person-day effort",
     'ci': 'CI votes',
     'patches': 'Patch Sets',
+    'translations':'Translated words'
 }
 
 METRIC_TO_RECORD_TYPE = {
@@ -55,6 +56,7 @@ METRIC_TO_RECORD_TYPE = {
     'person-day': ['mark', 'patch', 'email', 'bpd', 'bugf'],
     'ci': ['ci_vote'],
     'patches': ['patch'],
+    'translations':['translations']
 }
 
 FILTER_PARAMETERS = ['release', 'project_type', 'module', 'company', 'user_id',

@@ -140,6 +140,9 @@ def get_modules(records, metric_filter, finalize_handler, **kwargs):
     return _get_aggregated_stats(records, metric_filter,
                                  vault.get_memory_storage().get_modules(),
                                  'module', finalize_handler=finalize_handler)
+    
+    
+
 
 
 def get_core_engineer_branch(user, modules):
@@ -151,6 +154,33 @@ def get_core_engineer_branch(user, modules):
                 break
     return is_core
 
+
+
+
+@app.route('/api/1.0/stats/translations')
+@decorators.exception_handler()
+@decorators.response()
+@decorators.cached()
+@decorators.jsonify('stats')
+@decorators.record_filter()
+@decorators.aggregate_filter()
+def get_translations(records,metric_filter,finalize_handler, **kwargs):
+    translations = parameters.get_parameter(kwargs, 'translations')
+    return {
+                'id':'daisy',
+                'text':'hello world'
+            }
+
+
+@app.route('/api/1.0/translations')
+@decorators.response()
+@decorators.cached()
+@decorators.jsonify('translations')
+def get_translation(translation_name, **kwargs):
+    return {
+                'id':'daisy',
+                'text':'hello world'
+            }
 
 @app.route('/api/1.0/stats/engineers')
 @decorators.exception_handler()
@@ -334,6 +364,9 @@ def get_company(company_name, **kwargs):
                     company_name)
             }
     flask.abort(404)
+    
+    
+
 
 
 @app.route('/api/1.0/modules/<module_id>')

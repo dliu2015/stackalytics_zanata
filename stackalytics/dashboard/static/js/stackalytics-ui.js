@@ -83,6 +83,99 @@ function renderTimeline(options) {
     });
 }
 
+
+
+<!--added to render s sample table about the translations -->
+function renderTable(url,container_id, table_id,link_param,table_column_names){
+	$(document).ready(function(){
+		
+		$.ajax({
+            url: makeURI(url),
+            dataType: "json",
+            success: function (data) {
+
+                var tableData = [];
+
+                const limit = 10;
+                //var aggregate = 0;
+                var i;
+
+                data = data["stats"];
+
+                if (data.length == 0) {
+                    $("#" + container_id).hide();
+                    return;
+                }
+
+                for (i = 0; i < data.length; i++) {
+                	/*
+                    if (i < limit - 1) {
+                        chartData.push([data[i].name, data[i].metric]);
+                    } else {
+                        aggregate += data[i].metric;
+                    }
+                    */
+
+                    if (!data[i].link) {
+                        if (data[i].id) {
+                            data[i].link = makeLink(data[i].id, data[i].name, link_param);
+                        } else {
+                            data[i].link = data[i].name
+                        }
+                    }
+
+                    if (data[i].core == "master") {
+                        data[i].link += '&nbsp;&#x273B;'
+                    } else if (data[i].core) {
+                        data[i].link += "&nbsp;&#x272C; <small><i>" + data[i].core + "</i></small>";
+                    }
+
+                    tableData.push(data[i]);
+                }
+
+                /*
+                if (i == limit) {
+                    chartData.push([data[i - 1].name, data[i - 1].metric]);
+                } else if (i > limit) {
+                    chartData.push(["others", aggregate]);
+                }
+                */
+
+                if (!table_column_names) {
+                    table_column_names = ["index", "link", "metric"];
+                }
+                var tableColumns = [];
+                var sort_by_column = 0;
+                for (i = 0; i < table_column_names.length; i++) {
+                    tableColumns.push({"mData": table_column_names[i]});
+                    if (table_column_names[i] == "metric") {
+                        sort_by_column = i;
+                    }
+                }
+
+                if (table_id) {
+                    $("#" + table_id).dataTable({
+                        "aLengthMenu": [
+                            [10, 25, 50, -1],
+                            [10, 25, 50, "All"]
+                        ],
+                        "aaSorting": [
+                            [ sort_by_column, "desc" ]
+                        ],
+                        "sPaginationType": "full_numbers",
+                        "iDisplayLength": 10,
+                        "aaData": tableData,
+                        "aoColumns": tableColumns
+                    });
+                }
+            }
+			
+		});
+		
+	});
+}
+
+
 function renderTableAndChart(url, container_id, table_id, chart_id, link_param, table_column_names) {
 
     $(document).ready(function () {
@@ -374,4 +467,5 @@ function initSelectors(base_url) {
     initSingleSelector("company", makeURI(base_url + "/api/1.0/companies"), {allowClear: true});
     initSingleSelector("user_id", makeURI(base_url + "/api/1.0/users"), {allowClear: true});
     initSingleSelector("metric", makeURI(base_url + "/api/1.0/metrics"));
+    initSingleSelector("translations",makeURI(base_url + "/api/1.0/translations"));
 }

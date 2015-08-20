@@ -56,6 +56,7 @@ def _validate_params(params):
                     memory_storage_inst.get_companies_lower())
     _check_param_in(params, 'user_id', memory_storage_inst.get_user_ids())
     _check_param_in(params, 'metric', parameters.METRIC_TO_RECORD_TYPE, True)
+    _check_param_in(params, 'translations',['translations'],True)
 
 
 def _get_single(params):
@@ -397,6 +398,7 @@ def templated(template=None, return_code=200):
             if template_name is None:
                 template_name = (flask.request.endpoint.replace('.', '/') +
                                  '.html')
+            LOG.debug('##########here is the template name %s  ######################', template_name)
             ctx = f(*args, **kwargs)
             if ctx is None:
                 ctx = {}
@@ -454,6 +456,9 @@ def templated(template=None, return_code=200):
             # deprecated -- top mentor report
             ctx['review_nth'] = parameters.get_single_parameter(
                 kwargs, 'review_nth')
+            
+            #added for the translation
+            ctx['translations'] = parameters.get_single_parameter(kwargs, 'translations')
 
             return flask.render_template(template_name, **ctx), return_code
 
