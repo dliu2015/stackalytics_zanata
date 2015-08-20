@@ -164,8 +164,8 @@ def get_core_engineer_branch(user, modules):
 @decorators.jsonify('stats')
 @decorators.record_filter()
 @decorators.aggregate_filter()
-def get_translations(records,metric_filter,finalize_handler, **kwargs):
-    #translations = parameters.get_parameter(kwargs, 'translations')
+def get_translations(record_ids,metric_filter,finalize_handler, **kwargs):
+    translations = parameters.get_parameter(kwargs, 'translations')
     return {
                 'id':'daisy',
                 'text':'hello world'
@@ -176,12 +176,14 @@ def get_translations(records,metric_filter,finalize_handler, **kwargs):
 @decorators.response()
 @decorators.cached()
 @decorators.jsonify('translations')
-def get_translation(translation_name, **kwargs):
+def get_translation(records_ids, **kwargs):
     return {
                 'id':'daisy',
                 'text':'hello world'
             }
 
+    
+    
 @app.route('/api/1.0/stats/engineers')
 @decorators.exception_handler()
 @decorators.response()

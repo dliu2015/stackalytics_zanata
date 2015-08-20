@@ -467,5 +467,5 @@ function initSelectors(base_url) {
     initSingleSelector("company", makeURI(base_url + "/api/1.0/companies"), {allowClear: true});
     initSingleSelector("user_id", makeURI(base_url + "/api/1.0/users"), {allowClear: true});
     initSingleSelector("metric", makeURI(base_url + "/api/1.0/metrics"));
-    initSingleSelector("translations",makeURI(base_url + "/api/1.0/translations"));
+    initSingleSelector("translations",makeURI(base_url + "/api/1.0/translations"),{allowClear:true});
 }
