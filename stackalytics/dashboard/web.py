@@ -165,7 +165,7 @@ def get_core_engineer_branch(user, modules):
 @decorators.record_filter()
 @decorators.aggregate_filter()
 def get_translations(records,metric_filter,finalize_handler, **kwargs):
-    translations = parameters.get_parameter(kwargs, 'translations')
+    #translations = parameters.get_parameter(kwargs, 'translations')
     return {
                 'id':'daisy',
                 'text':'hello world'
