@@ -42,6 +42,7 @@ def _check_param_in(params, name, collection, allow_all=False):
             continue
         if single not in collection:
             params[name] = []
+            LOG.debug('here is the %s',name)
             flask.abort(404)
 
 

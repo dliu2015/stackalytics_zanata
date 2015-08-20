@@ -172,11 +172,11 @@ def get_translations(record_ids,metric_filter,finalize_handler, **kwargs):
             }
 
 
-@app.route('/api/1.0/translations')
+@app.route('/api/1.0/translations_api')
 @decorators.response()
 @decorators.cached()
-@decorators.jsonify('translations')
-def get_translation(records_ids, **kwargs):
+#@decorators.jsonify('translations')
+def get_translations_api(**kwargs):
     return {
                 'id':'daisy',
                 'text':'hello world'
