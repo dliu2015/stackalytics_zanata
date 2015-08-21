@@ -31,6 +31,7 @@ from stackalytics.dashboard import reports
 from stackalytics.dashboard import vault
 from stackalytics.processor import config
 from stackalytics.processor import utils
+from designateclient.v1.records import RecordsController
 
 # Application objects ---------
 
@@ -155,35 +156,6 @@ def get_core_engineer_branch(user, modules):
     return is_core
 
 
-
-
-@app.route('/api/1.0/stats/translations')
-@decorators.exception_handler()
-@decorators.response()
-@decorators.cached()
-@decorators.jsonify('stats')
-@decorators.record_filter()
-@decorators.aggregate_filter()
-def get_translations(record_ids,metric_filter,finalize_handler, **kwargs):
-    translations = parameters.get_parameter(kwargs, 'translations')
-    return {
-                'id':'daisy',
-                'text':'hello world'
-            }
-
-
-@app.route('/api/1.0/translations_api')
-@decorators.response()
-@decorators.cached()
-#@decorators.jsonify('translations')
-def get_translations_api(**kwargs):
-    return {
-                'id':'daisy',
-                'text':'hello world'
-            }
-
-    
-    
 @app.route('/api/1.0/stats/engineers')
 @decorators.exception_handler()
 @decorators.response()
@@ -403,13 +375,33 @@ def get_members(records, **kwargs):
     return response
 
 
-@app.route('/api/1.0/stats/bp')
+@app.route('/api/1.0/stats/translations')
 @decorators.exception_handler()
 @decorators.response()
 @decorators.cached()
 @decorators.jsonify('stats')
 @decorators.record_filter()
+def get_translations(records,**kwargs):
+    #translations = parameters.get_parameter(kwargs, 'translations')
+    #return {
+    #            'id':'daisy',
+    #            'text':'hello world'
+    #        }
+    result =[] 
+    pass
+    
+    
+@app.route('/api/1.0/stats/bp')
+@decorators.exception_handler()
+@decorators.response()
+#@decorators.cached()
+@decorators.jsonify('stats')
+@decorators.record_filter()
 def get_bpd(records, **kwargs):
+    print ('what records %s' %records)
+    for item in records:
+        print ('####Here print the details on by one ###############')
+        print ('record details %s ' %str(item))
     result = []
     for record in records:
         if record.record_type in ['bpd', 'bpc']:

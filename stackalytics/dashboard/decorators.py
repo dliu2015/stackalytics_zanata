@@ -236,6 +236,8 @@ def record_filter(ignore=None):
 
             kwargs['record_ids'] = record_ids
             kwargs['records'] = memory_storage_inst.get_records(record_ids)
+            
+            print 'the size is %s'%len(kwargs['records'])
 
             return f(*args, **kwargs)
 
