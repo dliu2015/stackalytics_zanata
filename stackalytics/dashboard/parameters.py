@@ -40,7 +40,7 @@ METRIC_LABELS = {
     'person-day': "Person-day effort",
     'ci': 'CI votes',
     'patches': 'Patch Sets',
-    'translations':'Translated words'
+    'translations':'Translations'
 }
 
 METRIC_TO_RECORD_TYPE = {

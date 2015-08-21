@@ -459,7 +459,7 @@ def templated(template=None, return_code=200):
                 kwargs, 'review_nth')
             
             #added for the translation
-            ctx['translations'] = parameters.get_single_parameter(kwargs, 'translations')
+            #ctx['translations'] = parameters.get_single_parameter(kwargs, 'translations')
 
             return flask.render_template(template_name, **ctx), return_code
 
