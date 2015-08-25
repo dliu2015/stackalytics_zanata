@@ -233,7 +233,9 @@ def record_filter(ignore=None):
                 record_ids = _intersect(
                     record_ids, _filter_records_by_days(start_date, end_date,
                                                         memory_storage_inst))
-
+            for item in record_ids:
+                print ('####Here print the details in decorater ###############')
+                print ('####record details in decorators%s#### ' %str(item))
             kwargs['record_ids'] = record_ids
             kwargs['records'] = memory_storage_inst.get_records(record_ids)
             

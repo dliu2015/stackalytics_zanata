@@ -31,7 +31,7 @@ from stackalytics.dashboard import reports
 from stackalytics.dashboard import vault
 from stackalytics.processor import config
 from stackalytics.processor import utils
-from designateclient.v1.records import RecordsController
+
 
 # Application objects ---------
 
@@ -382,19 +382,39 @@ def get_members(records, **kwargs):
 @decorators.jsonify('stats')
 @decorators.record_filter()
 def get_translations(records,**kwargs):
-    #translations = parameters.get_parameter(kwargs, 'translations')
-    #return {
-    #            'id':'daisy',
-    #            'text':'hello world'
-    #        }
-    result =[] 
-    pass
+    print ('what records %s' %records)
+    for item in records:
+        print ('####Here print the details on by one ###############')
+        print ('record details %s ' %str(item))
+    result = []
+    for record in records:
+        if record.record_type in ['bpd', 'bpc']:
+            record = vault.extend_record(record)
+            mention_date = record.get('mention_date')
+            if mention_date:
+                date = helpers.format_date(mention_date)
+            else:
+                date = 'never'
+            result.append({
+                'date': date,
+                'status': record['lifecycle_status'],
+                'metric': record.get('mention_count') or 0,
+                'id': record['name'],
+                'name': record['name'],
+                'link': helpers.make_blueprint_link(record['module'],
+                                                    record['name'])
+            })
+
+    result.sort(key=lambda x: x['metric'], reverse=True)
+    utils.add_index(result)
+
+    return result
     
     
 @app.route('/api/1.0/stats/bp')
 @decorators.exception_handler()
 @decorators.response()
-#@decorators.cached()
+@decorators.cached()
 @decorators.jsonify('stats')
 @decorators.record_filter()
 def get_bpd(records, **kwargs):

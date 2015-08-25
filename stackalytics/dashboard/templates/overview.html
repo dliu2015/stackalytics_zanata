@@ -18,10 +18,9 @@
 {% set show_top_mentors_options = (metric == 'tm_marks') %}
 {% set show_review_ratio = (metric in ['marks', 'tm_marks']) %}
 
-<!--added the flag to show the translator chart or not -->
-{% set show_translations = (translations) %} 
+{% set show_translations = ('trans'=='trans')%} 
 
-{% set show_translations = (translations in ['translations'] )%}
+
 
 
 {% macro show_report_links(module=None, company=None, user_id=None) -%}
@@ -57,7 +56,7 @@
         renderTableAndChart("/api/1.0/stats/engineers", "engineer_container", "engineer_table", "engineer_chart", "user_id");
         {% endif %}
     {% endif %}
-    {% if show_bp_breakdown %}
+    {% if not show_bp_breakdown %}
     renderTableAndChart("/api/1.0/stats/bp", "bp_container", "bp_table", "bp_chart", "name",
             ["index", "link", "status", "date", "metric"]);
     {% endif %}
@@ -68,8 +67,8 @@
     
     <!-- add the section to render the translation on the html page-->
     {% if show_translations %}
-    <h2>Contribution by translators</h2>
-    renderTable("/api/1.0/stats/translations", "translations_container","translations_table","translations");
+    renderTableAndChart("/api/1.0/stats/translations", "bp_container","bp_table","bp_chart","name",
+    		 ["index", "link", "status", "date", "metric"]);
     
     {% endif %}
 
@@ -212,7 +211,7 @@
         {{ module_details.show_module_details(module=module) }}
     {% endif %}
 
-    {% if show_bp_breakdown %}
+    {% if show_translations %}
     <div id="bp_container">
     <h2>Blueprint popularity</h2>
 
@@ -248,31 +247,5 @@
         {{ activity_log.show_activity_log(gravatar_size=32, show_all=False) }}
     {% endif %}
 
-    {% if show_translations %}
-       <h2> tries to output something new1</h2>
-      
-       <div id="translation_container">
-       <h2>Blueprint popularity</h2>
-
-       <div style="font-style: italic;">
-           This metric shows how many times a blueprint was mentioned in emails and commit messages.
-       </div>
-
-       <table id="translations_table" class="display">
-           <thead>
-               <tr>
-                   <th>#</th>
-                   <th>Blueprint</th>
-                   <th>Status</th>
-                   <th>Date</th>
-                   <th>Mentions</th>
-               </tr>
-           </thead>
-           <tbody>
-           </tbody>
-       </table>
-       <div class="spacer"></div>
-       </div>
-    {% endif%}
-    <h2> tries to output something new2</h2>
+  
 {% endblock %}
